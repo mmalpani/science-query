@@ -1,0 +1,41 @@
+  body {
+    background-image: url("images/background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    /*font-family: "Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"*/
+  }
+
+  h2 {
+    color: white;
+  }
+
+  h4 {
+    color: white;
+  }
+  label {
+    color: lightgrey;
+  }
+  .checkbox-inline {
+    color: white;
+  }
+
+  p {
+    color: white;
+  }
+
+  nav {
+    padding-left:20px; 
+    padding-right:100px;
+  }
+
+  .container {
+    margin-left:0px; 
+    margin-top:30px;
+    padding-bottom:10px;
+    background-color:rgba(255, 255, 255, 0);
+  }
+
+  .txt {
+    padding-left:30px;
+    width: 40%
+  }

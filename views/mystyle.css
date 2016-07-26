@@ -2,24 +2,18 @@
     background-image: url("images/background.jpg");
     background-size: cover;
     background-repeat: no-repeat;
+    background-attachment: fixed;
     /*font-family: "Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"*/
   }
 
-  h2 {
+  h2, h4, p {
     color: white;
   }
 
-  h4 {
-    color: white;
-  }
   label {
     color: lightgrey;
   }
   .checkbox-inline {
-    color: white;
-  }
-
-  p {
     color: white;
   }
 
@@ -29,13 +23,36 @@
   }
 
   .container {
-    margin-left:0px; 
+    margin-left:30px; 
     margin-top:30px;
     padding-bottom:10px;
-    background-color:rgba(255, 255, 255, 0);
   }
 
   .txt {
     padding-left:30px;
     width: 40%
   }
+  
+
+  tr:hover {
+    background-color: #00264d
+  }
+
+  th, td {
+    border: 1px solid white;
+    border-collapse: collapse;
+  }
+  table {
+    margin-left: 30px;
+    margin-bottom: 20px;
+    width: 100%;
+    background-color:rgba(0, 0, 0, 0.6);
+
+  }
+  th, td {
+      color: white;
+      padding: 10px;
+  }
+  /*div {
+    border: 1px solid white;
+  }*/

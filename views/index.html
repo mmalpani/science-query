@@ -36,9 +36,9 @@
   <h4> Use the following filters to get the data sets you want. </h4>
 </div>
 
-<div class="container">
-<div class="col-xs-7">
-  <form class="form-vertical" role="form" style="width: 70%;">
+<div class="container col-xs-4">
+<div>
+  <form class="form-vertical" role="form" style="width: 100%;">
       <div class="form-group">
         <label for="sel1">Start Month:</label>
         <select class="form-control" id="sel1">
@@ -102,22 +102,21 @@
         <label class="checkbox-inline"><input type="checkbox" id="d" value="depth">Depth</label>
         <label class="checkbox-inline"><input type="checkbox" id="t" value="temp">Temperature</label>
         <label class="checkbox-inline"><input type="checkbox" id ="l" value="light">Light</label>
-        <!--<select class="form-control" id="sel5">
-              <option value='all'>All</option>
-              <option value='temp'>Temperature</option>
-              <option value='light'>Light</option>
-              <option value='depth'>Depth</option>
-        </select>-->
       </div>
 
       <div class="form-group">
-          <button id="submit" type="submit" class="btn btn-primary" 
+          <button id="submit" type="button" class="btn btn-primary" 
           onclick="sendData()" >Find Data</button>
       </div>
 
     </div>
     </div>
   </form>
+</div>
+<div class="container col-xs-6">
+  <table id="results">
+  </table>
+  <!--PUT MAP HERE.-->
 </div>
 
 <script>
@@ -151,7 +150,7 @@
    var tempObj = [{"name": "Megs", 
                    "sensorTypes":["temp", "depth"], 
                    "sensorSpec": ["TE: MS5837-30BA", "TE: MS5837-30BA"],
-                   "date": new Date(), 
+                   "date": "6/23/12", 
                    "region": "Mombasa, Kenya",
                    "cordinates": "30.5, 50.5", 
                    "notes": "It was a beautiful cloudless day.",
@@ -161,17 +160,17 @@
                   {"name": "Gill", 
                    "sensorTypes":["light", "depth"], 
                    "sensorSpec": ["not a clue", "TE: MS5837-30BA"],
-                   "date": new Date(), 
+                   "date": "4/16/17", 
                    "region": "Maine, USA",
                    "cordinates": "130.2, 20.5", 
                    "notes": "Rather cloudy, stormy day - rained a little.",
                    "data": [{"depth": 5, "temp": 25.3}, 
                             {"depth": 4, "temp": 21.4}, 
-                            {"depth": 2, "temp": 30.3}]}
+                            {"depth": 2, "temp": 30.3}]},
                   {"name": "Blake", 
                    "sensorTypes":["temp", "depth", "light"], 
                    "sensorSpec": ["TE: MS5837-30BA", "TE: MS5837-30BA", "hell if I know"],
-                   "date": new Date(), 
+                   "date": "6/3/17", 
                    "region": "Hiraido, Japan",
                    "cordinates": "30.5, 50.5", 
                    "notes": "It was a beautiful cloudless day.",
@@ -182,7 +181,34 @@
  }
 
  function recieveData(json) {
-   var template = 
+   $("#results").empty();
+   insRow("Types of Data", "Date", "Location");
+   json.forEach(function(d) {
+     var typeOfData = d.sensorTypes;
+     if (typeOfData == undefined) {
+       typeOfData = "unknown";
+     }
+     var eventDate = d.date;
+     if (eventDate == undefined) {
+       eventDate = "unknown";
+     }
+     var location = d.region;
+     if (location == undefined) {
+       location = "unknown";
+     }
+     insRow(typeOfData, eventDate, location);
+   });
+ }
+
+ function insRow(data, date, location)
+ {
+    var x=document.getElementById('results').insertRow(-1);
+    var c1=x.insertCell(0);
+    var c2=x.insertCell(1);
+    var c3=x.insertCell(2);
+    c1.innerHTML=data;
+    c2.innerHTML=date;
+    c3.innerHTML=location;
  }
 </script>
 </body>

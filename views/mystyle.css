@@ -6,8 +6,13 @@
     /*font-family: "Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"*/
   }
 
-  h2, h4, p {
+  h2, h4, p, th, td {
     color: white;
+  }
+
+  caption {
+    font-size: large;
+    color: #00264d;
   }
 
   label {
@@ -23,9 +28,9 @@
   }
 
   .container {
-    margin-left:30px; 
-    margin-top:30px;
-    padding-bottom:10px;
+    margin-left:20px; 
+    margin-top:20px;
+    margin-bottom:10px;
   }
 
   .txt {
@@ -38,19 +43,32 @@
     background-color: #00264d
   }
 
-  th, td {
+  /*th, table, td */
+  /*tr {
     border: 1px solid white;
     border-collapse: collapse;
+  }*/
+
+  /*.children {
+    background-color: white;
+  }*/
+
+  td, th {
+    border-top: 1px solid white;
+    border-collapse: collapse;
   }
+
   table {
-    margin-left: 30px;
+    margin-left: 0px;
     margin-bottom: 20px;
     width: 100%;
-    background-color:rgba(0, 0, 0, 0.6);
-
+    background-color:rgba(0, 0, 0, 0.7);
+    border: 1px solid white;
   }
-  th, td {
-      color: white;
+  th {
+      padding: 15px;
+  }
+  td {
       padding: 10px;
   }
   /*div {

@@ -10,7 +10,13 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 <script src="script.js"></script>
 
+<!--<link rel="stylesheet" type="text/css" href="../node_modules/datatables.net-dt/css/jquery.dataTables.css">
+<script src="../node_modules/datatables.net/js/jquery.dataTables.js"></script>-->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.6/jqc-1.12.3/dt-1.10.12/b-1.2.1/b-colvis-1.2.1/cr-1.3.2/fh-3.1.2/r-2.1.0/sc-1.4.2/se-1.2.0/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.6/jqc-1.12.3/dt-1.10.12/b-1.2.1/b-colvis-1.2.1/cr-1.3.2/fh-3.1.2/r-2.1.0/sc-1.4.2/se-1.2.0/datatables.min.js"></script>
+
 <link rel="stylesheet" type="text/css" href="mystyle.css">
+
 
 </head>
 
@@ -33,7 +39,7 @@
 
 <div class="txt">
   <h2> Welcome to OpenScience.</h2>
-  <h4> Use the following filters to get the data sets you want. </h4>
+  <h4> Use the following initial filters to get the data sets you want. </h4>
 </div>
 
 <div class="container col-xs-4">
@@ -98,7 +104,7 @@
       </div>
 
       <div class="form-group">
-        <label for="sel5">Type of Data:</label> <br/>
+        <label for="sel5">Type of Data (results contain all checked types):</label> <br/>
         <label class="checkbox-inline"><input type="checkbox" id="d" value="depth">Depth</label>
         <label class="checkbox-inline"><input type="checkbox" id="t" value="temp">Temperature</label>
         <label class="checkbox-inline"><input type="checkbox" id ="l" value="light">Light</label>
@@ -113,13 +119,46 @@
     </div>
   </form>
 </div>
-<div class="container col-xs-6">
-  <table id="results">
+<div class="container col-xs-7">
+  <div style="margin-top:-55px;" id="dtable" class="hide">
+  <table id="test" class="display">
+    <caption>Click on a row to download data file.</caption>
+    <thead>
+        <tr>
+            <th>Dive Date</th>
+            <th>Types of Data</th>
+            <th>Location</th>
+            <th>Max Depth (m)</th>
+            <th>Session ID</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
   </table>
+  </div>
   <!--PUT MAP HERE.-->
 </div>
 
 <script>
+
+  //KEY TO DO:
+  //child node that show up when clicked! (hidden col with session ids?)- 
+  //https://www.datatables.net/examples/api/row_details.html
+  //buttons in download link - 
+  //https://datatables.net/forums/discussion/3193/adding-link-or-button-into-the-datatable-row
+
+  $(document).ready( function () {
+    $('#test').DataTable(
+     {
+        scrollY:'50vh',
+        scrollCollapse: true,
+        paging: false,
+        "columns": [{"name": "first", "orderable": true},
+                    {"name": "second", "orderable": true},
+                    {"name": "third", "orderable": true},
+                    {"name": "fourth", "orderable": true},
+                    {"name": "fifth", "visible": false}]})});
+
  function sendData () {
    var a = document.getElementById("sel1");
    var b = document.getElementById("sel2");
@@ -142,31 +181,115 @@
               "endYear": d.options[d.selectedIndex].value,
               "typesOfData": sensors};
    console.dir(json);
-   alert("You want data sets from the months " + a.options[a.selectedIndex].value + 
-   " to "+ b.options[b.selectedIndex].value + ", during the years "+
-   c.options[c.selectedIndex].value +" to " + d.options[d.selectedIndex].value + 
-   ", containing information about: " + sensors);
+  //  alert("You want data sets from the months " + a.options[a.selectedIndex].value + 
+  //  " to "+ b.options[b.selectedIndex].value + ", during the years "+
+  //  c.options[c.selectedIndex].value +" to " + d.options[d.selectedIndex].value + 
+  //  ", containing information about: " + sensors);
 
-   var tempObj = [{"name": "Megs", 
+   var tempObj = [{"name": "Megs", //also only on the file
                    "sensorTypes":["temp", "depth"], 
-                   "sensorSpec": ["TE: MS5837-30BA", "TE: MS5837-30BA"],
+                   "sensorSpec": ["TE: MS5837-30BA", "TE: MS5837-30BA"], //only have this on the file that gets downloaded
                    "date": "6/23/12", 
                    "region": "Mombasa, Kenya",
                    "cordinates": "30.5, 50.5", 
                    "notes": "It was a beautiful cloudless day.",
-                   "data": [{"depth": 5, "temp": 25.3}, 
-                            {"depth": 6, "temp": 22.4}, 
-                            {"depth": 8, "temp": 20.3}]}, 
+                   "data": [{"depth": 5, "temp": 25.3}, //make this an identifier so the server 
+                            {"depth": 6, "temp": 22.4}, //can pass down a data set when button is pressed.
+                            {"depth": 8, "temp": 20.3}],
+                   "maxDepth": 20,
+                   "sessionID": "lkajsfkl34"},
+
                   {"name": "Gill", 
                    "sensorTypes":["light", "depth"], 
                    "sensorSpec": ["not a clue", "TE: MS5837-30BA"],
-                   "date": "4/16/17", 
+                   "date": "4/26/17", 
                    "region": "Maine, USA",
                    "cordinates": "130.2, 20.5", 
                    "notes": "Rather cloudy, stormy day - rained a little.",
                    "data": [{"depth": 5, "temp": 25.3}, 
                             {"depth": 4, "temp": 21.4}, 
-                            {"depth": 2, "temp": 30.3}]},
+                            {"depth": 2, "temp": 30.3}],
+                   "maxDepth": 10,
+                   "sessionID": "jklsdfjldsk"},
+
+                  {"name": "Blake", 
+                   "sensorTypes":["temp", "depth", "light"], 
+                   "sensorSpec": ["TE: MS5837-30BA", "TE: MS5837-30BA", "hell if I know"],
+                   "date": "1/3/17", 
+                   "region": "Hiraido, Japan",
+                   "cordinates": "30.5, 50.5", 
+                   "notes": "It was a beautiful cloudless day.",
+                   "data": [{"depth": 5, "temp": 18.3}, 
+                            {"depth": 6, "temp": 15.4}, 
+                            {"depth": 8, "temp": 10.3}],
+                   "maxDepth": 20,
+                   "sessionID": "oweirfksj3"},
+
+                  {"name": "Megs", 
+                   "sensorTypes":["temp", "depth"], 
+                   "sensorSpec": ["TE: MS5837-30BA", "TE: MS5837-30BA"],
+                   "date": "7/23/12", 
+                   "region": "Mombasa, Kenya",
+                   "cordinates": "30.5, 50.5", 
+                   "notes": "It was a beautiful cloudless day.",
+                   "data": [{"depth": 5, "temp": 25.3}, 
+                            {"depth": 6, "temp": 22.4}, 
+                            {"depth": 8, "temp": 20.3}],
+                  "maxDepth": 20,
+                  "sessionID": "098rfsk3kd"}, 
+
+                  {"name": "Gill", 
+                   "sensorTypes":["light", "depth"], 
+                   "sensorSpec": ["not a clue", "TE: MS5837-30BA"],
+                   "date": "9/16/17", 
+                   "region": "Maine, USA",
+                   "cordinates": "130.2, 20.5", 
+                   "notes": "Rather cloudy, stormy day - rained a little.",
+                   "data": [{"depth": 5, "temp": 25.3}, 
+                            {"depth": 4, "temp": 21.4}, 
+                            {"depth": 2, "temp": 30.3}],
+                   "maxDepth": 120,
+                   "sessionID": "2kjejqrj3"},
+
+                  {"name": "Blake", 
+                   "sensorTypes":["temp", "depth", "light"], 
+                   "sensorSpec": ["TE: MS5837-30BA", "TE: MS5837-30BA", "hell if I know"],
+                   "date": "2/3/17", 
+                   "region": "Hiraido, Japan",
+                   "cordinates": "30.5, 50.5", 
+                   "notes": "It was a beautiful cloudless day.",
+                   "data": [{"depth": 5, "temp": 18.3}, 
+                            {"depth": 6, "temp": 15.4}, 
+                            {"depth": 8, "temp": 10.3}],
+                  "maxDepth": 100,
+                  "sessionID": "lkfjds49"},
+
+                  {"name": "Megs", 
+                   "sensorTypes":["temp", "depth"], 
+                   "sensorSpec": ["TE: MS5837-30BA", "TE: MS5837-30BA"],
+                   "date": "3/23/12", 
+                   "region": "Mombasa, Kenya",
+                   "cordinates": "30.5, 50.5", 
+                   "notes": "It was a beautiful cloudless day.",
+                   "data": [{"depth": 5, "temp": 25.3}, 
+                            {"depth": 6, "temp": 22.4}, 
+                            {"depth": 8, "temp": 20.3}],
+                   "maxDepth": 22,
+                   "sessionID": "984mdfjksdf"}, 
+
+                  {"name": "Gill", 
+                   "sensorTypes":["light", "depth"], 
+                   "sensorSpec": ["not a clue", "TE: MS5837-30BA"],
+                   "date": "8/16/17", 
+                   "region": "Maine, USA",
+                   "cordinates": "130.2, 20.5", 
+                   "notes": "Rather cloudy, stormy day - rained a little.",
+                   "data": [{"depth": 5, "temp": 25.3}, 
+                            {"depth": 4, "temp": 21.4}, 
+                            {"depth": 2, "temp": 30.3}],
+                  "maxDepth": 10,
+                  "sessionID": "8dfksjkj3"},
+
                   {"name": "Blake", 
                    "sensorTypes":["temp", "depth", "light"], 
                    "sensorSpec": ["TE: MS5837-30BA", "TE: MS5837-30BA", "hell if I know"],
@@ -176,40 +299,77 @@
                    "notes": "It was a beautiful cloudless day.",
                    "data": [{"depth": 5, "temp": 18.3}, 
                             {"depth": 6, "temp": 15.4}, 
-                            {"depth": 8, "temp": 10.3}]}];
-   recieveData(tempObj);
+                            {"depth": 8, "temp": 10.3}],
+                   "maxDepth": 0,
+                   "sessionID": "lkkjfsd98jk"}];
+  //  recieveData(tempObj);
+   makeTable(tempObj);
  }
 
- function recieveData(json) {
-   $("#results").empty();
-   insRow("Types of Data", "Date", "Location");
+ function makeTable(json) {
+   document.getElementById('dtable').className="display";
+   var table = $('#test').DataTable();
+   table.clear();
    json.forEach(function(d) {
-     var typeOfData = d.sensorTypes;
-     if (typeOfData == undefined) {
-       typeOfData = "unknown";
-     }
-     var eventDate = d.date;
-     if (eventDate == undefined) {
-       eventDate = "unknown";
-     }
-     var location = d.region;
-     if (location == undefined) {
-       location = "unknown";
-     }
-     insRow(typeOfData, eventDate, location);
+      var typeOfData = d.sensorTypes;
+      if (typeOfData == undefined) {
+        typeOfData = "unknown";
+      } else {
+        console.log(typeOfData.join([separator = ' ']));
+        dataTypesStr = typeOfData.join([separator = ' '])
+      }
+      
+      var eventDate = d.date;
+      if (eventDate == undefined) {
+        eventDate = "unknown";
+      }
+      var location = d.region;
+      if (location == undefined) {
+        location = "unknown";
+      }
+      var mDepth = d.maxDepth;
+      if (mDepth == undefined) {
+        mDepth = "unknown";
+      }
+
+      // var data = d.data;
+      // var eventData ="";
+      // if(data == undefined) {
+      //   eventData = "not available.";
+      // } else {
+      //     eventData = "doesn't work";    
+      // }
+
+      var sesID = d.sessionID;
+      if (sesID == undefined) {
+        sesID = "";
+      }
+
+      var userNotes = d.notes;
+      if (userNotes == undefined) {
+        userNotes = "user didn't enter notes";
+      }
+
+      table.row.add([eventDate, dataTypesStr, location, mDepth, sesID]).draw().child([userNotes]).hide();
+      // var tr = $(this).closest('tr');
+      // var row = table.row( tr );
+      // row.child(data(d.notes)).show();
    });
+
+    $('#test tbody').on( 'click', 'tr', function () {
+    // var child = table.row(this).child;
+ 
+    // if ( child.isShown() ) {
+    //     child.hide();
+    // }
+    // else {
+    //     child.show();
+    // }
+    var r = table.row(this);
+    alert("session ID getting sent to server: "+ r.data()[4]);
+} );
  }
 
- function insRow(data, date, location)
- {
-    var x=document.getElementById('results').insertRow(-1);
-    var c1=x.insertCell(0);
-    var c2=x.insertCell(1);
-    var c3=x.insertCell(2);
-    c1.innerHTML=data;
-    c2.innerHTML=date;
-    c3.innerHTML=location;
- }
 </script>
 </body>
 </html>

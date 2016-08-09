@@ -37,6 +37,10 @@
     padding-left:30px;
     width: 40%
   }
+  input {
+    margin-top:7px;
+    margin-left:15px;
+  }
   
 
   tr:hover {
@@ -54,7 +58,7 @@
   }*/
 
   td, th {
-    border-top: 1px solid white;
+    border-bottom: 1px solid white;
     border-collapse: collapse;
   }
 
@@ -71,6 +75,11 @@
   td {
       padding: 10px;
   }
+
+  /*#mapid { 
+    height: 180px; 
+  }*/
+
   /*div {
     border: 1px solid white;
   }*/

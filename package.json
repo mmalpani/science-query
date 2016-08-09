@@ -5,6 +5,7 @@
     "start" : "node Server.js"
   },
   "dependencies" : {
-    "express" : "latest"
+    "express" : "latest",
+    "comma-separated-values": "~3.6.4"
   }
 }

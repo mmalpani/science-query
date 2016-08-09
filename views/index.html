@@ -8,20 +8,26 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-<script src="script.js"></script>
+<script src="csv/csv.min.js"></script>
 
-<!--<link rel="stylesheet" type="text/css" href="../node_modules/datatables.net-dt/css/jquery.dataTables.css">
-<script src="../node_modules/datatables.net/js/jquery.dataTables.js"></script>-->
+<!-- Auth0Lock script -->
+<script src="//cdn.auth0.com/js/lock/10.0/lock.min.js"></script>
+
+<!-- Setting the right viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+<!--leaflet!-->
+<link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.css" />
+<script src="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.js"></script>
+
+<!--data tables-->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.6/jqc-1.12.3/dt-1.10.12/b-1.2.1/b-colvis-1.2.1/cr-1.3.2/fh-3.1.2/r-2.1.0/sc-1.4.2/se-1.2.0/datatables.min.css"/>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.6/jqc-1.12.3/dt-1.10.12/b-1.2.1/b-colvis-1.2.1/cr-1.3.2/fh-3.1.2/r-2.1.0/sc-1.4.2/se-1.2.0/datatables.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="mystyle.css">
-
-
 </head>
 
 <body>
-<div>
 
 <nav class="navbar navbar-inverse" role="navigation">
   <class="navbar-left">
@@ -33,85 +39,99 @@
     <ul class="nav navbar-nav navbar-right">
       <li class="active"><a href="/">Home<span class="sr-only">(current)</span></a></li>
       <li><a href="/about.html">About</a></li>
+      <li><input id="btn-login" class="btn btn-primary btn-login" type="submit" value="Login"/></li>
     </ul>
   </div>
 </nav>
 
 <div class="txt">
-  <h2> Welcome to OpenScience.</h2>
+  <h2> Welcome to OpenWater.</h2>
   <h4> Use the following initial filters to get the data sets you want. </h4>
 </div>
 
 <div class="container col-xs-4">
-<div>
   <form class="form-vertical" role="form" style="width: 100%;">
       <div class="form-group">
         <label for="sel1">Start Month:</label>
         <select class="form-control" id="sel1">
-              <option value='00'>All</option>
-              <option value='01'>January</option>
-              <option value='02'>February</option>
-              <option value='03'>March</option>
-              <option value='04'>April</option>
-              <option value='05'>May</option>
-              <option value='06'>June</option>
-              <option value='07'>July</option>
-              <option value='08'>August</option>
-              <option value='09'>September</option>
-              <option value='10'>October</option>
-              <option value='11'>November</option>
-              <option value='12'>December</option>
+              <option value=''>All</option>
+              <option value=1>January</option>
+              <option value=2>February</option>
+              <option value=3>March</option>
+              <option value=4>April</option>
+              <option value=5>May</option>
+              <option value=6>June</option>
+              <option value=7>July</option>
+              <option value=8>August</option>
+              <option value=9>September</option>
+              <option value=10>October</option>
+              <option value=11>November</option>
+              <option value=12>December</option>
         </select>
       </div>
 
       <div class="form-group">
         <label for="sel2">End Month:</label>
         <select class="form-control" id="sel2">
-              <option value='00'>All</option>
-              <option value='01'>January</option>
-              <option value='02'>February</option>
-              <option value='03'>March</option>
-              <option value='04'>April</option>
-              <option value='05'>May</option>
-              <option value='06'>June</option>
-              <option value='07'>July</option>
-              <option value='08'>August</option>
-              <option value='09'>September</option>
-              <option value='10'>October</option>
-              <option value='11'>November</option>
-              <option value='12'>December</option>
+              <option value=''>All</option>
+              <option value=1>January</option>
+              <option value=2>February</option>
+              <option value=3>March</option>
+              <option value=4>April</option>
+              <option value=5>May</option>
+              <option value=6>June</option>
+              <option value=7>July</option>
+              <option value=8>August</option>
+              <option value=9>September</option>
+              <option value=10>October</option>
+              <option value=11>November</option>
+              <option value=12>December</option>
         </select>
       </div>
 
       <div class="form-group">
         <label for="sel3">Start Year:</label>
         <select class="form-control" id="sel3">
-              <option value='0000'>All</option>
-              <option value='2015'>2015</option>
-              <option value='2016'>2016</option>
-              <option value='2017'>2017</option>
+              <option value=''>All</option>
+              <option value=2015>2015</option>
+              <option value=2016>2016</option>
+              <option value=2017>2017</option>
         </select>
       </div>
 
       <div class="form-group">
         <label for="sel4">End Year:</label>
         <select class="form-control" id="sel4">
-            <option value='0000'>All</option>
-            <option value='2015'>2015</option>
-            <option value='2016'>2016</option>
-            <option value='2017'>2017</option>
+              <option value=''>All</option>
+              <option value=2015>2015</option>
+              <option value=2016>2016</option>
+              <option value=2017>2017</option>
         </select>
       </div>
 
       <div class="form-group">
-        <label for="sel5">Type of Data (results contain all checked types):</label> <br/>
+        <label for="sel5">Continent:</label>
+        <select class="form-control" id="sel5">
+              <option value=''>All</option>
+              <option value="Africa">Africa</option>
+              <option value="Australia">Australia</option>
+              <option value="North America">North America</option>
+              <option value="South America">South America</option>
+              <option value="Europe">Europe</option>
+              <option value="Asia">Asia</option>
+              <option value="Antarctica">Antarctica</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Type of Data (results contain all checked types):</label> <br/>
         <label class="checkbox-inline"><input type="checkbox" id="d" value="depth">Depth</label>
         <label class="checkbox-inline"><input type="checkbox" id="t" value="temp">Temperature</label>
         <label class="checkbox-inline"><input type="checkbox" id ="l" value="light">Light</label>
       </div>
 
       <div class="form-group">
-          <button id="submit" type="button" class="btn btn-primary" 
+          <button id="submit" type="button" class="btn btn-primary disabled" 
           onclick="sendData()" >Find Data</button>
       </div>
 
@@ -120,32 +140,25 @@
   </form>
 </div>
 <div class="container col-xs-7">
-  <div style="margin-top:-55px;" id="dtable" class="hide">
-  <table id="test" class="display">
-    <caption>Click on a row to download data file.</caption>
-    <thead>
-        <tr>
-            <th>Dive Date</th>
-            <th>Types of Data</th>
-            <th>Location</th>
-            <th>Max Depth (m)</th>
-            <th>Session ID</th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-  </table>
+  <div style="margin-top:-60px;" id="dtable" class="hide">
+    <table id="test" class="display">
+      <caption>Click on a row to download data file.</caption>
+      <thead>
+          <tr>
+              <th>Dive Date</th>
+              <th>Types of Data</th>
+              <th>Location</th>
+              <th>Max Depth (m)</th>
+              <th>Session ID</th>
+          </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
   </div>
-  <!--PUT MAP HERE.-->
 </div>
 
 <script>
-
-  //KEY TO DO:
-  //child node that show up when clicked! (hidden col with session ids?)- 
-  //https://www.datatables.net/examples/api/row_details.html
-  //buttons in download link - 
-  //https://datatables.net/forums/discussion/3193/adding-link-or-button-into-the-datatable-row
 
   $(document).ready( function () {
     $('#test').DataTable(
@@ -157,13 +170,101 @@
                     {"name": "second", "orderable": true},
                     {"name": "third", "orderable": true},
                     {"name": "fourth", "orderable": true},
-                    {"name": "fifth", "visible": false}]})});
+                    {"name": "fifth", "visible": false}]});  
+  start("Megs", "2kj9sd") ;
+  });
+
+    //var lock = new Auth0Lock('BWcCxwJdMnHP7Y3pKCNtbp5IA6o5lKlb', 'openrov.auth0.com');
+    var myToken = localStorage.getItem('id_token');
+    var myProf = localStorage.getItem('id_profile');
+
+    var socket = null;
+    var socketiourl = null;
+    function start (profile, token) {
+        socketiourl = 'http://localhost:3000/dataapi_10/socket.io.js'
+        //JSON.parse(myProf).dataOpenROVcom.service_url + '/socket.io.js';
+        $.getScript(socketiourl,function(){
+
+        socket = io('http://localhost:3000', { //io(JSON.parse(profile).dataOpenROVcom.service_url, {
+            path: '/dataapi_10',
+            'multiplex': false,
+            query: 'token=' + token,
+            transports: ['websocket'],
+            reconnection:false,
+            timeout:30000,
+            "force new connection": true,
+            "connect timeout" : 5000});
+
+
+        // $("#submit").removeClass('disabled').addClass('active');
+
+        socket.on('connect',function(){
+          //enable the button so that it can be pressed.
+          $("#submit").removeClass('disabled').addClass('active');
+        })
+        activated();
+
+        }).fail(function( jqxhr, settings, exception ) {
+    	    console.log("ERROR");
+});;
+    }
+
+
+  // document.getElementById('btn-login').addEventListener('click', function() {
+  //   lock.show({ authParams: { scope: 'openid profile offline_access' },icon:'https://s3.amazonaws.com/openrov-com-assets/openrov_community_banner_690x138.png',socialBigButtons: true },function (err, profile, token, access_token, state, refresh_token) {
+  //       if (err){
+  //         console.alert('Error logging in:', JSON.stringify(err));
+  //         self.eventEmitter.emit('cloudprofile-status',{loggedIn:false,profile:null});
+  //         localStorage.removeItem('id_profile');
+  //         self.loggedIn=false;
+  //         return; //TODO: Better handling of canceling
+  //       }  
+  //       localStorage.setItem('id_token', token);
+  //       var jwt =  jwt_decode(token)
+  //       var e = new Date(jwt.exp*1000);
+  //       localStorage.setItem('id_token_expires', e);
+  //       localStorage.setItem('refresh_token',refresh_token); 
+  //       self.loggedIn=true;                     
+  //       localStorage.setItem('id_profile', JSON.stringify(profile));
+  //       self.profilePictureURL=profile.picture;
+  //       console.log(JSON.stringify(profile));
+  //       self.eventEmitter.emit('cloudprofile-status',{loggedIn:true,profile:profile});
+
+  //       start(myProf, myToken) //HERE OR IN THE METHOD BELOW? 
+  //     });
+  // });
+
+  // lock.on("authenticated", function(authResult) {
+  //   lock.getProfile(authResult.idToken, function(error, profile) {
+  //     if (error) {
+  //       // Handle error
+  //       return;
+  //     }
+  //     localStorage.setItem('id_token', authResult.idToken);
+  //     localStorage.setItem('profile', JSON.stringify(profile));
+  //   });
+  // });
+
+  // //retrieve the profile:
+  // var id_token = localStorage.getItem('id_token');
+  // if (id_token) {
+  //   lock.getProfile(id_token, function (err, profile) {
+  //     if (err) {
+  //       return alert('There was an error getting the profile: ' + err.message);
+  //     }
+  //     document.getElementById('name').textContent = profile.name;
+  //   });
+  // }
+
+//WHAT IS HAPPENING UP TO HERE?!
+
 
  function sendData () {
    var a = document.getElementById("sel1");
    var b = document.getElementById("sel2");
    var c = document.getElementById("sel3");
    var d = document.getElementById("sel4");
+   var e = document.getElementById("sel5");
    var sensors = [];
    if (document.getElementById("d").checked) {
      sensors.push("depth");
@@ -179,138 +280,20 @@
               "endMonth": b.options[b.selectedIndex].value,
               "startYear": c.options[c.selectedIndex].value,
               "endYear": d.options[d.selectedIndex].value,
+              "continent": e.options[e.selectedIndex].value,
               "typesOfData": sensors};
-   console.dir(json);
-  //  alert("You want data sets from the months " + a.options[a.selectedIndex].value + 
-  //  " to "+ b.options[b.selectedIndex].value + ", during the years "+
-  //  c.options[c.selectedIndex].value +" to " + d.options[d.selectedIndex].value + 
-  //  ", containing information about: " + sensors);
-
-   var tempObj = [{"name": "Megs", //also only on the file
-                   "sensorTypes":["temp", "depth"], 
-                   "sensorSpec": ["TE: MS5837-30BA", "TE: MS5837-30BA"], //only have this on the file that gets downloaded
-                   "date": "6/23/12", 
-                   "region": "Mombasa, Kenya",
-                   "cordinates": "30.5, 50.5", 
-                   "notes": "It was a beautiful cloudless day.",
-                   "data": [{"depth": 5, "temp": 25.3}, //make this an identifier so the server 
-                            {"depth": 6, "temp": 22.4}, //can pass down a data set when button is pressed.
-                            {"depth": 8, "temp": 20.3}],
-                   "maxDepth": 20,
-                   "sessionID": "lkajsfkl34"},
-
-                  {"name": "Gill", 
-                   "sensorTypes":["light", "depth"], 
-                   "sensorSpec": ["not a clue", "TE: MS5837-30BA"],
-                   "date": "4/26/17", 
-                   "region": "Maine, USA",
-                   "cordinates": "130.2, 20.5", 
-                   "notes": "Rather cloudy, stormy day - rained a little.",
-                   "data": [{"depth": 5, "temp": 25.3}, 
-                            {"depth": 4, "temp": 21.4}, 
-                            {"depth": 2, "temp": 30.3}],
-                   "maxDepth": 10,
-                   "sessionID": "jklsdfjldsk"},
-
-                  {"name": "Blake", 
-                   "sensorTypes":["temp", "depth", "light"], 
-                   "sensorSpec": ["TE: MS5837-30BA", "TE: MS5837-30BA", "hell if I know"],
-                   "date": "1/3/17", 
-                   "region": "Hiraido, Japan",
-                   "cordinates": "30.5, 50.5", 
-                   "notes": "It was a beautiful cloudless day.",
-                   "data": [{"depth": 5, "temp": 18.3}, 
-                            {"depth": 6, "temp": 15.4}, 
-                            {"depth": 8, "temp": 10.3}],
-                   "maxDepth": 20,
-                   "sessionID": "oweirfksj3"},
-
-                  {"name": "Megs", 
-                   "sensorTypes":["temp", "depth"], 
-                   "sensorSpec": ["TE: MS5837-30BA", "TE: MS5837-30BA"],
-                   "date": "7/23/12", 
-                   "region": "Mombasa, Kenya",
-                   "cordinates": "30.5, 50.5", 
-                   "notes": "It was a beautiful cloudless day.",
-                   "data": [{"depth": 5, "temp": 25.3}, 
-                            {"depth": 6, "temp": 22.4}, 
-                            {"depth": 8, "temp": 20.3}],
-                  "maxDepth": 20,
-                  "sessionID": "098rfsk3kd"}, 
-
-                  {"name": "Gill", 
-                   "sensorTypes":["light", "depth"], 
-                   "sensorSpec": ["not a clue", "TE: MS5837-30BA"],
-                   "date": "9/16/17", 
-                   "region": "Maine, USA",
-                   "cordinates": "130.2, 20.5", 
-                   "notes": "Rather cloudy, stormy day - rained a little.",
-                   "data": [{"depth": 5, "temp": 25.3}, 
-                            {"depth": 4, "temp": 21.4}, 
-                            {"depth": 2, "temp": 30.3}],
-                   "maxDepth": 120,
-                   "sessionID": "2kjejqrj3"},
-
-                  {"name": "Blake", 
-                   "sensorTypes":["temp", "depth", "light"], 
-                   "sensorSpec": ["TE: MS5837-30BA", "TE: MS5837-30BA", "hell if I know"],
-                   "date": "2/3/17", 
-                   "region": "Hiraido, Japan",
-                   "cordinates": "30.5, 50.5", 
-                   "notes": "It was a beautiful cloudless day.",
-                   "data": [{"depth": 5, "temp": 18.3}, 
-                            {"depth": 6, "temp": 15.4}, 
-                            {"depth": 8, "temp": 10.3}],
-                  "maxDepth": 100,
-                  "sessionID": "lkfjds49"},
-
-                  {"name": "Megs", 
-                   "sensorTypes":["temp", "depth"], 
-                   "sensorSpec": ["TE: MS5837-30BA", "TE: MS5837-30BA"],
-                   "date": "3/23/12", 
-                   "region": "Mombasa, Kenya",
-                   "cordinates": "30.5, 50.5", 
-                   "notes": "It was a beautiful cloudless day.",
-                   "data": [{"depth": 5, "temp": 25.3}, 
-                            {"depth": 6, "temp": 22.4}, 
-                            {"depth": 8, "temp": 20.3}],
-                   "maxDepth": 22,
-                   "sessionID": "984mdfjksdf"}, 
-
-                  {"name": "Gill", 
-                   "sensorTypes":["light", "depth"], 
-                   "sensorSpec": ["not a clue", "TE: MS5837-30BA"],
-                   "date": "8/16/17", 
-                   "region": "Maine, USA",
-                   "cordinates": "130.2, 20.5", 
-                   "notes": "Rather cloudy, stormy day - rained a little.",
-                   "data": [{"depth": 5, "temp": 25.3}, 
-                            {"depth": 4, "temp": 21.4}, 
-                            {"depth": 2, "temp": 30.3}],
-                  "maxDepth": 10,
-                  "sessionID": "8dfksjkj3"},
-
-                  {"name": "Blake", 
-                   "sensorTypes":["temp", "depth", "light"], 
-                   "sensorSpec": ["TE: MS5837-30BA", "TE: MS5837-30BA", "hell if I know"],
-                   "date": "6/3/17", 
-                   "region": "Hiraido, Japan",
-                   "cordinates": "30.5, 50.5", 
-                   "notes": "It was a beautiful cloudless day.",
-                   "data": [{"depth": 5, "temp": 18.3}, 
-                            {"depth": 6, "temp": 15.4}, 
-                            {"depth": 8, "temp": 10.3}],
-                   "maxDepth": 0,
-                   "sessionID": "lkkjfsd98jk"}];
-  //  recieveData(tempObj);
-   makeTable(tempObj);
+   socket.emit('query-session', json);
  }
 
- function makeTable(json) {
+
+function activated () {
+
+ socket.on('query-session-results', function(jsonAr) {
    document.getElementById('dtable').className="display";
    var table = $('#test').DataTable();
-   table.clear();
-   json.forEach(function(d) {
+   table.clear().draw();
+   if(jsonAr.length != 0) {
+   jsonAr.forEach(function(d) {
       var typeOfData = d.sensorTypes;
       if (typeOfData == undefined) {
         typeOfData = "unknown";
@@ -318,12 +301,11 @@
         console.log(typeOfData.join([separator = ' ']));
         dataTypesStr = typeOfData.join([separator = ' '])
       }
-      
       var eventDate = d.date;
       if (eventDate == undefined) {
         eventDate = "unknown";
       }
-      var location = d.region;
+      var location = d.location;
       if (location == undefined) {
         location = "unknown";
       }
@@ -332,43 +314,66 @@
         mDepth = "unknown";
       }
 
-      // var data = d.data;
-      // var eventData ="";
-      // if(data == undefined) {
-      //   eventData = "not available.";
-      // } else {
-      //     eventData = "doesn't work";    
-      // }
-
       var sesID = d.sessionID;
       if (sesID == undefined) {
         sesID = "";
       }
+      table.row.add([eventDate, dataTypesStr, location, mDepth, sesID]).draw();
+   })}});
 
-      var userNotes = d.notes;
-      if (userNotes == undefined) {
-        userNotes = "user didn't enter notes";
-      }
 
-      table.row.add([eventDate, dataTypesStr, location, mDepth, sesID]).draw().child([userNotes]).hide();
-      // var tr = $(this).closest('tr');
-      // var row = table.row( tr );
-      // row.child(data(d.notes)).show();
-   });
+  $('#test tbody').on( 'click', 'tr', function () {
+      var r = $('#test').DataTable().row(this);
+      socket.emit('get-data-file', r.data()[4]); 
+  });
 
-    $('#test tbody').on( 'click', 'tr', function () {
-    // var child = table.row(this).child;
- 
-    // if ( child.isShown() ) {
-    //     child.hide();
-    // }
-    // else {
-    //     child.show();
-    // }
-    var r = table.row(this);
-    alert("session ID getting sent to server: "+ r.data()[4]);
-} );
- }
+  socket.on('data-file-results', function(dataAr) {
+    var cleanedData = [["Time", "Depth", "Heading"]];
+    dataAr.forEach(function(d) {
+      var lineAr = [new Date(d.timestamp).toUTCString(), d.data.depth, d.data.heading];
+      cleanedData.push(lineAr);
+    })
+    var csv = new CSV(cleanedData);
+    var encoded = csv.encode();
+
+    alert(encoded);
+
+    var blob = new Blob([encoded], { 'type': 'application/octet-stream' });
+    var link = document.createElement("a");
+    link.setAttribute('href', window.URL.createObjectURL(blob));
+    link.setAttribute("download", dataAr[0].sessionID+".csv");
+    link.setAttribute('target','_blank');
+    document.body.appendChild(link); // Required for FF
+    link.click(); // This will download the data file named "my_data.csv".
+  });
+
+    var log = function(str){
+      console.log(str);
+    }
+    var log_trace = function(str){
+      console.log(str);
+    }
+    
+ socket.on("error", function(error) {
+  if (error.type == "UnauthorizedError" || error.code == "invalid_token") {
+    // redirect user to login page perhaps?
+    log("User's token has expired");
+  }
+  //resolve(new Error(error.message));
+});
+
+socket.on('close', function() {
+  if (isSyncing){
+    log_trace('sync socket.io closed');
+    isSyncing=false;
+    reject(new Error('socket.io connection closed'));
+  }});
+
+socket.on('connect_timeout',function(){
+  reject(new Error('Connection timed out'));
+});
+
+}
 
 </script>
 </body>

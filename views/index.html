@@ -171,10 +171,10 @@
                     {"name": "third", "orderable": true},
                     {"name": "fourth", "orderable": true},
                     {"name": "fifth", "visible": false}]});  
-  start("Megs", "2kj9sd") ;
+  //start("Megs", "2kj9sd") ;
   });
 
-    //var lock = new Auth0Lock('BWcCxwJdMnHP7Y3pKCNtbp5IA6o5lKlb', 'openrov.auth0.com');
+    var lock = new Auth0Lock('BWcCxwJdMnHP7Y3pKCNtbp5IA6o5lKlb', 'openrov.auth0.com');
     var myToken = localStorage.getItem('id_token');
     var myProf = localStorage.getItem('id_profile');
 
@@ -196,8 +196,6 @@
             "connect timeout" : 5000});
 
 
-        // $("#submit").removeClass('disabled').addClass('active');
-
         socket.on('connect',function(){
           //enable the button so that it can be pressed.
           $("#submit").removeClass('disabled').addClass('active');
@@ -206,55 +204,59 @@
 
         }).fail(function( jqxhr, settings, exception ) {
     	    console.log("ERROR");
-});;
+        });;
     }
 
 
-  // document.getElementById('btn-login').addEventListener('click', function() {
-  //   lock.show({ authParams: { scope: 'openid profile offline_access' },icon:'https://s3.amazonaws.com/openrov-com-assets/openrov_community_banner_690x138.png',socialBigButtons: true },function (err, profile, token, access_token, state, refresh_token) {
-  //       if (err){
-  //         console.alert('Error logging in:', JSON.stringify(err));
-  //         self.eventEmitter.emit('cloudprofile-status',{loggedIn:false,profile:null});
-  //         localStorage.removeItem('id_profile');
-  //         self.loggedIn=false;
-  //         return; //TODO: Better handling of canceling
-  //       }  
-  //       localStorage.setItem('id_token', token);
-  //       var jwt =  jwt_decode(token)
-  //       var e = new Date(jwt.exp*1000);
-  //       localStorage.setItem('id_token_expires', e);
-  //       localStorage.setItem('refresh_token',refresh_token); 
-  //       self.loggedIn=true;                     
-  //       localStorage.setItem('id_profile', JSON.stringify(profile));
-  //       self.profilePictureURL=profile.picture;
-  //       console.log(JSON.stringify(profile));
-  //       self.eventEmitter.emit('cloudprofile-status',{loggedIn:true,profile:profile});
+  document.getElementById('btn-login').addEventListener('click', function() {
+    lock.show({ authParams: { scope: 'openid profile offline_access' },icon:'https://s3.amazonaws.com/openrov-com-assets/openrov_community_banner_690x138.png',socialBigButtons: true },function (err, profile, token, access_token, state, refresh_token) {
+ /*       if (err){
+          console.alert('Error logging in:', JSON.stringify(err));
+          self.eventEmitter.emit('cloudprofile-status',{loggedIn:false,profile:null});
+          localStorage.removeItem('id_profile');
+          self.loggedIn=false;
+          return; //TODO: Better handling of canceling
+        }  
+        localStorage.setItem('id_token', token);
+        var jwt =  jwt_decode(token)
+        var e = new Date(jwt.exp*1000);
+        localStorage.setItem('id_token_expires', e);
+        localStorage.setItem('refresh_token',refresh_token); 
+        self.loggedIn=true;                     
+        localStorage.setItem('id_profile', JSON.stringify(profile));
+        self.profilePictureURL=profile.picture;
+        console.log(JSON.stringify(profile));
+        self.eventEmitter.emit('cloudprofile-status',{loggedIn:true,profile:profile});
 
-  //       start(myProf, myToken) //HERE OR IN THE METHOD BELOW? 
-  //     });
-  // });
+        start(myProf, myToken) //HERE OR IN THE METHOD BELOW? 
+*/ 
+     });
+  });
 
-  // lock.on("authenticated", function(authResult) {
-  //   lock.getProfile(authResult.idToken, function(error, profile) {
-  //     if (error) {
-  //       // Handle error
-  //       return;
-  //     }
-  //     localStorage.setItem('id_token', authResult.idToken);
-  //     localStorage.setItem('profile', JSON.stringify(profile));
-  //   });
-  // });
+  lock.on("authenticated", function(authResult) {
+    lock.getProfile(authResult.idToken, function(error, profile) {
+      if (error) {
+        // Handle error
+        return;
+      }
+      localStorage.setItem('id_token', authResult.idToken);
+      localStorage.setItem('profile', JSON.stringify(profile));
+      start(profile, authResult.idToken);
+      //ADD PICTURE AT TOP WITH LOGOUT BUTTON,
+    });
+  });
 
-  // //retrieve the profile:
-  // var id_token = localStorage.getItem('id_token');
-  // if (id_token) {
-  //   lock.getProfile(id_token, function (err, profile) {
-  //     if (err) {
-  //       return alert('There was an error getting the profile: ' + err.message);
-  //     }
-  //     document.getElementById('name').textContent = profile.name;
-  //   });
-  // }
+  //retrieve the profile:
+  var id_token = localStorage.getItem('id_token');
+  if (id_token) {
+    lock.getProfile(id_token, function (err, profile) {
+      if (err) {
+        return alert('There was an error getting the profile: ' + err.message);
+      }
+    //  document.getElementById('name').textContent = profile.name;
+      start (profile, id_token);
+    });
+  }
 
 //WHAT IS HAPPENING UP TO HERE?!
 

@@ -36,17 +36,21 @@
              src="/images/OpenROV.png">
     </a>
   <div class="navbar-collapse collapse">
-    <ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-left">
       <li class="active"><a href="/">Home<span class="sr-only">(current)</span></a></li>
-      <li><a href="/about.html">About</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right" id="logs">
       <li><input id="btn-login" class="btn btn-primary btn-login" type="submit" value="Login"/></li>
+      <li><input id="btn-logout" class="btn btn-primary btn-login hide" type="submit" value="Logout"/></li>
     </ul>
   </div>
 </nav>
 
 <div class="txt">
   <h2> Welcome to OpenWater.</h2>
-  <h4> Use the following initial filters to get the data sets you want. </h4>
+  <h4> Use the following initial filters to get the data sets you want.</h4>
+  <h3 id="loginTxt"> Login to get started. </h3>
 </div>
 
 <div class="container col-xs-4">
@@ -140,7 +144,7 @@
   </form>
 </div>
 <div class="container col-xs-7">
-  <div style="margin-top:-60px;" id="dtable" class="hide">
+  <div style="margin-top:-75px;" id="dtable" class="hide">
     <table id="test" class="display">
       <caption>Click on a row to download data file.</caption>
       <thead>
@@ -171,7 +175,6 @@
                     {"name": "third", "orderable": true},
                     {"name": "fourth", "orderable": true},
                     {"name": "fifth", "visible": false}]});  
-  //start("Megs", "2kj9sd") ;
   });
 
     var lock = new Auth0Lock('BWcCxwJdMnHP7Y3pKCNtbp5IA6o5lKlb', 'openrov.auth0.com');
@@ -199,12 +202,18 @@
         socket.on('connect',function(){
           //enable the button so that it can be pressed.
           $("#submit").removeClass('disabled').addClass('active');
-        })
+        });
+
         activated();
+        $("#btn-login").addClass('hide');
+        $("#loginTxt").addClass('hide');
+        $("#btn-logout").removeClass('hide').addClass('active');
+        $('#logs').prepend('<li><img class="profIcon" src="' + profile.picture + '" /></li>');
+        // $('#logs').prepend('<li><p class="welcome"> Welcome ' + profile.name + '!</p></li>');
 
         }).fail(function( jqxhr, settings, exception ) {
     	    console.log("ERROR");
-        });;
+        });
     }
 
 
@@ -231,6 +240,11 @@
         start(myProf, myToken) //HERE OR IN THE METHOD BELOW? 
 */ 
      });
+  });
+
+  document.getElementById('btn-logout').addEventListener('click', function() {
+      localStorage.removeItem('id_token');
+      window.location.href = "/";
   });
 
   lock.on("authenticated", function(authResult) {
@@ -338,7 +352,7 @@ function activated () {
     var csv = new CSV(cleanedData);
     var encoded = csv.encode();
 
-    alert(encoded);
+    // alert(encoded);
 
     var blob = new Blob([encoded], { 'type': 'application/octet-stream' });
     var link = document.createElement("a");
@@ -349,12 +363,18 @@ function activated () {
     link.click(); // This will download the data file named "my_data.csv".
   });
 
-    var log = function(str){
+  // function convertDate(inputFormat) {
+  //   function pad(s) { return (s < 10) ? '0' + s : s; }
+  //   var d = new Date(inputFormat);
+  //   return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/');
+  // }
+
+  var log = function(str){
       console.log(str);
-    }
-    var log_trace = function(str){
+  }
+  var log_trace = function(str){
       console.log(str);
-    }
+  }
     
  socket.on("error", function(error) {
   if (error.type == "UnauthorizedError" || error.code == "invalid_token") {

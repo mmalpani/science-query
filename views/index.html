@@ -184,11 +184,10 @@
     var socket = null;
     var socketiourl = null;
     function start (profile, token) {
-        socketiourl = 'http://localhost:3000/dataapi_10/socket.io.js'
-        //JSON.parse(myProf).dataOpenROVcom.service_url + '/socket.io.js';
+        socketiourl = profile.dataOpenROVcom.service_url + '/socket.io.js';
         $.getScript(socketiourl,function(){
 
-        socket = io('http://localhost:3000', { //io(JSON.parse(profile).dataOpenROVcom.service_url, {
+        socket = io(profile.dataOpenROVcom.service_url, { //io(JSON.parse(profile).dataOpenROVcom.service_url, {
             path: '/dataapi_10',
             'multiplex': false,
             query: 'token=' + token,
@@ -219,26 +218,6 @@
 
   document.getElementById('btn-login').addEventListener('click', function() {
     lock.show({ authParams: { scope: 'openid profile offline_access' },icon:'https://s3.amazonaws.com/openrov-com-assets/openrov_community_banner_690x138.png',socialBigButtons: true },function (err, profile, token, access_token, state, refresh_token) {
- /*       if (err){
-          console.alert('Error logging in:', JSON.stringify(err));
-          self.eventEmitter.emit('cloudprofile-status',{loggedIn:false,profile:null});
-          localStorage.removeItem('id_profile');
-          self.loggedIn=false;
-          return; //TODO: Better handling of canceling
-        }  
-        localStorage.setItem('id_token', token);
-        var jwt =  jwt_decode(token)
-        var e = new Date(jwt.exp*1000);
-        localStorage.setItem('id_token_expires', e);
-        localStorage.setItem('refresh_token',refresh_token); 
-        self.loggedIn=true;                     
-        localStorage.setItem('id_profile', JSON.stringify(profile));
-        self.profilePictureURL=profile.picture;
-        console.log(JSON.stringify(profile));
-        self.eventEmitter.emit('cloudprofile-status',{loggedIn:true,profile:profile});
-
-        start(myProf, myToken) //HERE OR IN THE METHOD BELOW? 
-*/ 
      });
   });
 

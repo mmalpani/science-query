@@ -9,7 +9,7 @@ ADD package.json /src/package.json
 RUN apk add --no-cache curl
 # If you need npm, don't use a base tag
 RUN npm install
-ADD server.js /src/server.js
+ADD Server.js /src/server.js
 ADD views/ /src/views/
 
 #ENV DEBUG_FLAG=DEBUG

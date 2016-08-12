@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>OpenWater</title>
+
+<!--Basic boilerplate website libraries (bootstrap, jquery, etc)-->
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular-route.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -24,11 +26,13 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.6/jqc-1.12.3/dt-1.10.12/b-1.2.1/b-colvis-1.2.1/cr-1.3.2/fh-3.1.2/r-2.1.0/sc-1.4.2/se-1.2.0/datatables.min.css"/>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.6/jqc-1.12.3/dt-1.10.12/b-1.2.1/b-colvis-1.2.1/cr-1.3.2/fh-3.1.2/r-2.1.0/sc-1.4.2/se-1.2.0/datatables.min.js"></script>
 
+<!--my stylesheet-->
 <link rel="stylesheet" type="text/css" href="mystyle.css">
 </head>
 
 <body>
 
+<!--the navigation bar-->
 <nav class="navbar navbar-inverse" role="navigation">
   <div class="navbar-collapse collapse">
     <ul class="nav navbar-nav navbar-left">
@@ -51,6 +55,7 @@
   <h3 id="loginTxt"> Login to get started. </h3>
 </div>
 
+<!--the filtering form-->
 <div class="container col-xs-4">
   <form class="form-vertical" role="form" style="width: 100%;">
       <div class="form-group">
@@ -141,6 +146,8 @@
     </div>
   </form>
 </div>
+
+<!--the data results table-->
 <div class="container col-xs-7">
   <div style="margin-top:-75px;" id="dtable" class="hide">
     <table id="test" class="display">
@@ -181,6 +188,9 @@
 
   var socket = null;
   var socketiourl = null;
+
+  // Once the user has been authorized, this method is called and 
+  // creates the socket connection to data.openrov.org
   function start (profile, token) {
         socketiourl = profile.dataOpenROVcom.service_url + '/socket.io.js';
         $.getScript(socketiourl,function(){
@@ -197,11 +207,11 @@
 
 
         socket.on('connect',function(){
-          //enable the button so that it can be pressed.
+          //enable the form button so queries can go through.
           $("#submit").removeClass('disabled').addClass('active');
         });
-
         activated();
+        //updates navbar
         $("#btn-login").addClass('hide');
         $("#loginTxt").addClass('hide');
         $("#btn-logout").removeClass('hide').addClass('active');
@@ -212,21 +222,22 @@
         });
   }
 
-
+  // listener for the login button
   document.getElementById('btn-login').addEventListener('click', function() {
     lock.show({ authParams: { scope: 'openid profile offline_access' },icon:'https://s3.amazonaws.com/openrov-com-assets/openrov_community_banner_690x138.png',socialBigButtons: true },function (err, profile, token, access_token, state, refresh_token) {
      });
   });
 
+  // listener for the logout button
   document.getElementById('btn-logout').addEventListener('click', function() {
       localStorage.removeItem('id_token');
       window.location.href = "/";
   });
 
+  //method called when the lock is authenticated that calls start
   lock.on("authenticated", function(authResult) {
     lock.getProfile(authResult.idToken, function(error, profile) {
       if (error) {
-        // Handle error
         return;
       }
       localStorage.setItem('id_token', authResult.idToken);
@@ -246,6 +257,7 @@
     });
   }
 
+ //method that uses socket connection to send query data to data.openrov.org
  function sendData () {
    var a = document.getElementById("sel1");
    var b = document.getElementById("sel2");
@@ -272,7 +284,10 @@
    socket.emit('query-session', json);
  }
 
+//socket connection establishmen makes these methods available 
 function activated () {
+
+ //listens for the data results and displays them on the webpage
  socket.on('query-session-results', function(jsonAr) {
    document.getElementById('dtable').className="display";
    var table = $('#test').DataTable();
@@ -307,11 +322,14 @@ function activated () {
    })}});
 
 
+  //on row click, sends request for full data set
   $('#test tbody').on( 'click', 'tr', function () {
       var r = $('#test').DataTable().row(this);
       socket.emit('get-data-file', r.data()[4]); 
   });
 
+  //listens for the results of the full data file, converts it to a csv
+  //and downloads file.
   socket.on('data-file-results', function(dataAr) {
     var cleanedData = [["Time", "Depth", "Heading"]];
     dataAr.forEach(function(d) {
@@ -320,9 +338,6 @@ function activated () {
     })
     var csv = new CSV(cleanedData);
     var encoded = csv.encode();
-
-    // alert(encoded);
-
     var blob = new Blob([encoded], { 'type': 'application/octet-stream' });
     var link = document.createElement("a");
     link.setAttribute('href', window.URL.createObjectURL(blob));
@@ -332,6 +347,7 @@ function activated () {
     link.click();
   });
 
+  // // function gives you the date is dd/mm/yy format
   // function convertDate(inputFormat) {
   //   function pad(s) { return (s < 10) ? '0' + s : s; }
   //   var d = new Date(inputFormat);
@@ -344,7 +360,8 @@ function activated () {
   var log_trace = function(str){
       console.log(str);
   }
-    
+
+ //boilerplate socket listeners   
  socket.on("error", function(error) {
   if (error.type == "UnauthorizedError" || error.code == "invalid_token") {
     log("User's token has expired");

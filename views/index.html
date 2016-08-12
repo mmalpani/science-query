@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>OpenScience</title>
+<title>OpenWater</title>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular-route.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -34,8 +34,7 @@
     <ul class="nav navbar-nav navbar-left">
       <li><a class="navbar-brand" rel="home" href="">
         <img style="max-width:200px; margin-top: -7px;"
-             src="/images/OpenROV.png">
-    </a></li>
+             src="/images/OpenROV.png"></a></li>
       <li class="active"><a href="/">Home<span class="sr-only">(current)</span></a></li>
       <li><a href="/about">About</a></li>
     </ul>
@@ -176,13 +175,13 @@
                     {"name": "fifth", "visible": false}]});  
   });
 
-    var lock = new Auth0Lock('BWcCxwJdMnHP7Y3pKCNtbp5IA6o5lKlb', 'openrov.auth0.com');
-    var myToken = localStorage.getItem('id_token');
-    var myProf = localStorage.getItem('id_profile');
+  var lock = new Auth0Lock('BWcCxwJdMnHP7Y3pKCNtbp5IA6o5lKlb', 'openrov.auth0.com');
+  var myToken = localStorage.getItem('id_token');
+  var myProf = localStorage.getItem('id_profile');
 
-    var socket = null;
-    var socketiourl = null;
-    function start (profile, token) {
+  var socket = null;
+  var socketiourl = null;
+  function start (profile, token) {
         socketiourl = profile.dataOpenROVcom.service_url + '/socket.io.js';
         $.getScript(socketiourl,function(){
 
@@ -207,12 +206,11 @@
         $("#loginTxt").addClass('hide');
         $("#btn-logout").removeClass('hide').addClass('active');
         $('#logs').prepend('<li><img class="profIcon" src="' + profile.picture + '" /></li>');
-        // $('#logs').prepend('<li><p class="welcome"> Welcome ' + profile.name + '!</p></li>');
 
         }).fail(function( jqxhr, settings, exception ) {
     	    console.log("ERROR");
         });
-    }
+  }
 
 
   document.getElementById('btn-login').addEventListener('click', function() {
@@ -234,7 +232,6 @@
       localStorage.setItem('id_token', authResult.idToken);
       localStorage.setItem('profile', JSON.stringify(profile));
       start(profile, authResult.idToken);
-      //ADD PICTURE AT TOP WITH LOGOUT BUTTON,
     });
   });
 
@@ -245,13 +242,9 @@
       if (err) {
         return alert('There was an error getting the profile: ' + err.message);
       }
-    //  document.getElementById('name').textContent = profile.name;
       start (profile, id_token);
     });
   }
-
-//WHAT IS HAPPENING UP TO HERE?!
-
 
  function sendData () {
    var a = document.getElementById("sel1");
@@ -279,9 +272,7 @@
    socket.emit('query-session', json);
  }
 
-
 function activated () {
-
  socket.on('query-session-results', function(jsonAr) {
    document.getElementById('dtable').className="display";
    var table = $('#test').DataTable();
@@ -337,8 +328,8 @@ function activated () {
     link.setAttribute('href', window.URL.createObjectURL(blob));
     link.setAttribute("download", dataAr[0].sessionID+".csv");
     link.setAttribute('target','_blank');
-    document.body.appendChild(link); // Required for FF
-    link.click(); // This will download the data file named "my_data.csv".
+    document.body.appendChild(link);
+    link.click();
   });
 
   // function convertDate(inputFormat) {
@@ -356,10 +347,8 @@ function activated () {
     
  socket.on("error", function(error) {
   if (error.type == "UnauthorizedError" || error.code == "invalid_token") {
-    // redirect user to login page perhaps?
     log("User's token has expired");
   }
-  //resolve(new Error(error.message));
 });
 
 socket.on('close', function() {

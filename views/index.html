@@ -192,10 +192,10 @@
   // Once the user has been authorized, this method is called and 
   // creates the socket connection to data.openrov.org
   function start (profile, token) {
-        socketiourl = profile.dataOpenROVcom.service_url + '/socket.io.js';
+        socketiourl = profile.dataOpenROVcom.service_url + '/dataapi_10/socket.io.js';
         $.getScript(socketiourl,function(){
 
-        socket = io(profile.dataOpenROVcom.service_url, { //io(JSON.parse(profile).dataOpenROVcom.service_url, {
+        socket = io(profile.dataOpenROVcom.service_url, {
             path: '/dataapi_10',
             'multiplex': false,
             query: 'token=' + token,
@@ -330,10 +330,14 @@ function activated () {
 
   //listens for the results of the full data file, converts it to a csv
   //and downloads file.
+  //!!!!
+  //THIS PART WILL NEED TO GET FIXED EVENTUALLY.
+  //!!!!
   socket.on('data-file-results', function(dataAr) {
-    var cleanedData = [["Time", "Depth", "Heading"]];
+    var cleanedData = [["Time", "Depth", "Temp"]];
     dataAr.forEach(function(d) {
-      var lineAr = [new Date(d.timestamp).toUTCString(), d.data.depth, d.data.heading];
+      //ADD A CHECK HERE TO MAKE SURE NONE OF THESE VALUES ARE UNDEFINED.
+      var lineAr = [new Date(d.timestamp).toUTCString(), d.data.depth, d.data.temp];
       cleanedData.push(lineAr);
     })
     var csv = new CSV(cleanedData);
